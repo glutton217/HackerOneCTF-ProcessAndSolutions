@@ -34,3 +34,9 @@ This is a really standard use forms to edit data (some sort of content) and push
 	1) This is great as it's a clue, rather than the page not existing I just can't access it right now! what if I try editing page 6?
 	2) I changed the url from `page/6` to `page/edit/6` and was taken to an editable page titled "Private Page" with the flag in the text box: `^FLAG^f39663c6cdca64a5749f5f5f9b7719d696b2b58572888b5f159155765a32f51c$FLAG$`
 
+## Flag 3:
+1) similar to the XSS title vulnerability from before, I noticed on page 2 there was a button and in the text field pre-filled out an img field that just didn't render properly and defaulted to alternate. In this step I decided to pursue the button first. 
+2) I gave the button `onClick` behavior and set that to `alert(1)`. Upon saving, the website actually let the onClick event handler stay, and when clicking I got the alert! upon checking the source code I found the flag next to the event handler: `^FLAG^562412504ddf8e2d1f5f3f1e5bb210ef101c37a4185cfd763c5fec5e0861f55a$FLAG$`
+- **Note:** the flag was revealed because the alert function on the server side gives the flag upon alert() execution, it may not always be like this in real life so be wary and try everything!
+
+
