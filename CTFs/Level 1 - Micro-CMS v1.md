@@ -24,4 +24,8 @@ I'm getting stuck, why don't we backtrack and return to roots for a second? Let'
 This is a really standard use forms to edit data (some sort of content) and push to save to server. Let's play around more with the markdown xss approach to see what we can get.
 
 ## Flag 2:
-1) 
+1) going back to my markdown xss idea, I noticed that putting a script tag in the body wasn't allowed but what about the title?
+2) I put `<script>alert(document.cookie)</script>` into the title field and saved it, and the title actually saved as that exactly, no scrubbing, however no alert was actually triggered upon save
+3) what if i exit out and to the homepage? a re-render has to happen and now the render may not check as input may be checked but if it isn't sanitized it may run upon re-render since it was stored successfully into the backend
+4) it was correct! an alert appeared and I got the second flag: `^FLAG^7c27cf87146d039590fd323c36e41f69913e4fd9ef79149e2aff366c4c26d7c1$FLAG$`
+
