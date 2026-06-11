@@ -39,4 +39,8 @@ This is a really standard use forms to edit data (some sort of content) and push
 2) I gave the button `onClick` behavior and set that to `alert(1)`. Upon saving, the website actually let the onClick event handler stay, and when clicking I got the alert! upon checking the source code I found the flag next to the event handler: `^FLAG^562412504ddf8e2d1f5f3f1e5bb210ef101c37a4185cfd763c5fec5e0861f55a$FLAG$`
 - **Note:** the flag was revealed because the alert function on the server side gives the flag upon alert() execution, it may not always be like this in real life so be wary and try everything!
 
+## Flag 1:
+1) Maybe there's an SQL injection vulnerability! the url queries using the url, what if I add a single quote to the page id parameter?
+2) it worked and gave me the flag: `^FLAG^e158136e2ac697fca06fb91fdffedf2f0d3424ac1a289beea34d3d59c270388f$FLAG$`
+
 
