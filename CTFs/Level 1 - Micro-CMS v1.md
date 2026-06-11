@@ -29,3 +29,8 @@ This is a really standard use forms to edit data (some sort of content) and push
 3) what if i exit out and to the homepage? a re-render has to happen and now the render may not check as input may be checked but if it isn't sanitized it may run upon re-render since it was stored successfully into the backend
 4) it was correct! an alert appeared and I got the second flag: `^FLAG^7c27cf87146d039590fd323c36e41f69913e4fd9ef79149e2aff366c4c26d7c1$FLAG$`
 
+## Flag 0:
+1) going back to trying IDOR from the previous ctf, I decided to just keep incrementing continuously for a while and I realized that most unaccessible pages show `Page Not Found` but page 6 shows `Forbidden` which is different behavior than before! 
+	1) This is great as it's a clue, rather than the page not existing I just can't access it right now! what if I try editing page 6?
+	2) I changed the url from `page/6` to `page/edit/6` and was taken to an editable page titled "Private Page" with the flag in the text box: `^FLAG^f39663c6cdca64a5749f5f5f9b7719d696b2b58572888b5f159155765a32f51c$FLAG$`
+
