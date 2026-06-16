@@ -91,5 +91,18 @@ What else can I find? let's try another SQLI attack, exploiting the address this
 
 Let's go back to the login page and see if we can get more information, possibly a look at all the tables that exist! It's time for reconnaissance!
 
+### Data Exfiltration
+I'm going to try inputting other sql commands into the login fields to see if it will print anymore information for me. When I log in, normally there will be error messages like "Unknown User" or "Invalid Password". Let's see if there's any way we can mess with the user error to see if we can get it to display information, as this will tell us a lot of information on how the application handles, retrieves, and displays information from the database and if we can exploit that.
+
+#### Creating a new account
+First we need to create a new account. There's no way to do this normally through the app, so I'm gonna leverage what I did earlier with creating my own backdoor admin account but this time I will set a username as well. 
+
+Therefore, if I set my username as `AliceBob` my new payload should look like this:
+`' UNION SELECT 'AliceBob', 'wrongpassword' AS password FROM admins WHERE '1'='1`
+
+upon inputting that into the username, we got an Internal Server Error. This means the number of columns in the original developer's query is only 1 not 2, so username reflection isn't going to work. Maybe we can try password reflection, however the only error I've gotten so far has been "Invalid Password". I got "Invalid Password" by using the original payload and typing a different password from what we set it to.
+
+#### Blind SQLI using Binary Logic Validation
+
 
 ## Exploring Editing (deduction 2)
