@@ -103,6 +103,30 @@ Therefore, if I set my username as `AliceBob` my new payload should look like th
 upon inputting that into the username, we got an Internal Server Error. This means the number of columns in the original developer's query is only 1 not 2, so username reflection isn't going to work. Maybe we can try password reflection, however the only error I've gotten so far has been "Invalid Password". I got "Invalid Password" by using the original payload and typing a different password from what we set it to.
 
 #### Blind SQLI using Binary Logic Validation
-
+Let's come back to this later since I think I'm beginning to lose the plot, get confused, and this is going to be tedious so if I decide to revisit this later it'll be the only thing I focus on.
 
 ## Exploring Editing (deduction 2)
+Let's look for hidden values, dropdowns, and input fields!
+- I see nothing out of the ordinary or nothing that looks exploitable. only title and body fields in the body, no hidden parameters immediately accessible through the ui
+However, we know there needs to be a way for the backend of the CMS to track public and private pages because we saw that some pages were restricted through our IDOR crawl earlier and also by logging in and discovering a hidden page. Why don't we try editing a page and targeting that parameter manually through curl rather than visually through the app's ui?
+#### Parameter Pollution/Mass Assignment Attack
+Let's see if we can exploit anything using a manual POST request to the server using the curl command:
+```
+# Test 1: Guessing 'public'
+curl -X POST -d "title=Test&body=MyBody&public=0" http://localhost/page/edit/YOUR_PAGE_ID --cookie "session=YOUR_ADMIN_COOKIE"
+
+# Test 2: Guessing 'published'
+curl -X POST -d "title=Test&body=MyBody&published=0" http://localhost/page/edit/YOUR_PAGE_ID --cookie "session=YOUR_ADMIN_COOKIE"
+```
+1) for the first curl command I got the next flag! **Note:** the url must be from the edit page for it to work
+## Flag 1: 
+Using Parameter Pollution/Mass Assignment I got the next flag which was:
+`^FLAG^c2e9163fb2e95721081976ed18f99ff0eeaf7ea0da6150b3521e74d8b9779e5c$FLAG$`
+
+## Quick Recap:
+So far, we've found 3 vulnerabilities we have been able to exploit:
+- **Vulnerability A:** SQL Injection on the **Login Page** (Functional and highly exploitable).
+- **Vulnerability B:** Mass Assignment on the **Edit Page** (Just exploited to get Flag 2).
+- **Vulnerability C:** Cross-Site Scripting (XSS) — We noticed the application encodes `<` to `&lt;` on standard inputs, but we haven't checked if a SQL Injection could be used to smuggle a raw script tag out of the database onto a page that doesn't sanitize _database outputs_.
+
+**Vulnerability A** allowed me to access flag 0 as I was able to use sqli to log into the CMS and view the private page with the first flag. **Vulnerability B** allowed me to find flag 1. **Vulnerability C** was discovered while exploring but we haven't tried anything with it just yet.
